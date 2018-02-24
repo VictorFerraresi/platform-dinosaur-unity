@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	public float moveSpeed = 5.0f;
-	public float jumpHeight = 10.0f;
+	private float moveSpeed = 10.0f;
+	private float jumpHeight = 15.0f;
 
 	// Use this for initialization
 	void Start () {
