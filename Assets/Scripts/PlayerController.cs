@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		sprites = Resources.LoadAll<Sprite> ("Art/Player");
+		GameObject.Find ("Canvas").GetComponent<Canvas> ().enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -30,6 +31,14 @@ public class PlayerController : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.Space)) {
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D>().velocity.x, jumpHeight);
+		}
+	}
+
+	// Called when a collision happens
+	void OnCollisionEnter2D(Collision2D coll) {
+		if (coll.gameObject.name.StartsWith("cactus")){
+			GameObject.Find ("Canvas").GetComponent<Canvas> ().enabled = true;
+			Time.timeScale = 0;
 		}
 	}
 }
