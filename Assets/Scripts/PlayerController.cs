@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		spriteInterval -= Time.deltaTime;
-		if ( spriteInterval < 0 )
+		if ( spriteInterval < 0)
 		{
 			spriteInterval = 0.1f;
 			GetComponent<SpriteRenderer> ().sprite = sprites[actualSprite];
