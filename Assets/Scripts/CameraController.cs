@@ -20,9 +20,9 @@ public class CameraController : MonoBehaviour {
 	void LateUpdate () 
 	{
 		// Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
-		Vector3 a = player.transform.position + offset;
-		a.y = 0;
-		transform.position = a;
+		Vector3 aux = player.transform.position + offset;
+		aux.y = 0;
+		transform.position = aux;
 	}
 
 	public void OnRestartButtonClicked()
