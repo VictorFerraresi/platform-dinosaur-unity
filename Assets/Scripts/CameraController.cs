@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		GetComponent<Camera>().backgroundColor = Color.white;
 		offset = transform.position - player.transform.position;
 	}
 
