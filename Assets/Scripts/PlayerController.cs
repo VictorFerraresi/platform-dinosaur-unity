@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour {
 	private float spriteInterval = 0.1f;
 	private Sprite[] sprites = new Sprite[2];
 
+	private bool isGrounded = true;
+
 	// Use this for initialization
 	void Start () {
 		sprites = Resources.LoadAll<Sprite> ("Art/Player");
+
 		GameObject.Find ("Canvas").GetComponent<Canvas> ().enabled = false;
 	}
 	
@@ -29,16 +32,19 @@ public class PlayerController : MonoBehaviour {
 
 		GetComponent<Rigidbody2D> ().velocity = new Vector2 (moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
-		if(Input.GetKeyDown(KeyCode.Space)) {
+		if(isGrounded && Input.GetKeyDown(KeyCode.Space)) {
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D>().velocity.x, jumpHeight);
+			isGrounded = false;
 		}
 	}
 
 	// Called when a collision happens
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.name.StartsWith("cactus")){
+		if (coll.gameObject.name.StartsWith ("cactus")) {
 			GameObject.Find ("Canvas").GetComponent<Canvas> ().enabled = true;
 			Time.timeScale = 0;
+		} else if (coll.gameObject.name.StartsWith ("Ground")) {
+			isGrounded = true;
 		}
 	}
 }
