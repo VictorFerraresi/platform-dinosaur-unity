@@ -12,3 +12,8 @@ I'm finishing my graduation in Computer Science by the half of this year and thi
 My objective is to generate an JSON output of some scenarios meanwhile I play the game (speed, crash time, crash speed, distance when I jumped, etc) and write a genetic algorithm to generate the optimal output so the computer can play the game by itself.
 
 The algorithms and the output will be commited to this same repository.
+
+### Objectives Achieved
+1. ![Done](http://u.cubeupload.com/victorferraresi/icodone.png) Creation of the Unity game replica
+2. ![Done](http://u.cubeupload.com/victorferraresi/icodone.png) Generation of a JSON output of the played game scenario
+3. ![WIP](http://u.cubeupload.com/victorferraresi/icowip.png) Implementation of the genetic algorithm
