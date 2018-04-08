@@ -16,4 +16,5 @@ The algorithms and the output will be commited to this same repository.
 ### Objectives Achieved
 1. ![Done](http://u.cubeupload.com/victorferraresi/icodone.png) Creation of the Unity game replica
 2. ![Done](http://u.cubeupload.com/victorferraresi/icodone.png) Generation of a JSON output of the played game scenario
-3. ![WIP](http://u.cubeupload.com/victorferraresi/icowip.png) Implementation of the genetic algorithm
+3. ![Done](http://u.cubeupload.com/victorferraresi/icodone.png) Implementation of the genetic algorithm
+4. ![WIP](http://u.cubeupload.com/victorferraresi/icowip.png) Enhancement of the Crossover and Mutation systems
