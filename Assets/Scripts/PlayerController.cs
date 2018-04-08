@@ -6,7 +6,7 @@ using System.IO;
 
 [Serializable]
 public class PlayerController : MonoBehaviour {
-
+	
 	private float moveSpeed = 6.0f;
 	private float jumpHeight = 10.0f;
 
@@ -22,10 +22,12 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private List<Jumped> jumps = new List<Jumped>();
 
+	private List<Genome> genomes = Utils.loadAllGenomes ();
+
 	private bool isGrounded = true;
 
 	// Use this for initialization
-	void Start () {
+	void Start () {		
 		sprites = Resources.LoadAll<Sprite> ("Art/Player");
 
 		GameObject.Find ("Canvas").GetComponent<Canvas> ().enabled = false;
