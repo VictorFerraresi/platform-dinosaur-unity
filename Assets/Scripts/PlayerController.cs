@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour {
 			print ("Acabou de jogar os genomas");
 			Utils.clearCrossOversFolder();
 			genomes = Utils.loadAllGenomes (); //Force GENOMES root folder
-			//TODO Get top 4 fitness from this genomes array
 
 			List<Genome> bestGenomes = Utils.naturalSelection (genomes, 4);
 			Utils.clearGenomesFolder();
@@ -47,7 +46,7 @@ public class PlayerController : MonoBehaviour {
 				Utils.persistInJson (bestGenomes[i], genomeBasePath + i + "_");
 			}
 				
-			//New Crossovers
+			//New Crossovers + Mutations
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
 					if (i == j) {
@@ -177,6 +176,10 @@ public class PlayerController : MonoBehaviour {
 		else if (dist <= genomes[genomeIndex].jumps[actualJumpGenome].distanceToNearestCactus.x && isGrounded) {
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpHeight);
 			isGrounded = false;
+
+			print ("Actual = " + genomes [genomeIndex].jumps [actualJumpGenome].distanceToNearestCactus.x);
+			print ("Next = " + genomes [genomeIndex].jumps [actualJumpGenome+1].distanceToNearestCactus.x);
+			print ("-------------------------------------------------");
 
 			Cactus c = getNextNearestCactus ();
 			Jumped jump = new Jumped {
