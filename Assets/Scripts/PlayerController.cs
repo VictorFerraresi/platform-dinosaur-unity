@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 [Serializable]
 public class PlayerController : MonoBehaviour {
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour {
 	private int actualSprite = 0;
 	private float spriteInterval = 0.1f;
 	private Sprite[] sprites = new Sprite[2];
+
+	private String genomeBasePath = "Genomes/genome_";
 
 	[SerializeField]
 	private List<Cactus> cactus = new List<Cactus> ();
@@ -71,10 +74,7 @@ public class PlayerController : MonoBehaviour {
 
 			Cactus c = getNextNearestCactus ();
 			Jumped jump = new Jumped {
-				timeStamp = 1L,
 				nearestCactus = c,
-				velocity = GetComponent<Rigidbody2D> ().velocity,
-				height = GetComponent<Rigidbody2D> ().position.y,
 				distanceToNearestCactus = GetComponent<Rigidbody2D> ().position -  c.position
 			};
 
@@ -84,25 +84,28 @@ public class PlayerController : MonoBehaviour {
 
 	// Called when a collision happens
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.name.StartsWith ("cactus")) {
+		if (coll.gameObject.name.StartsWith ("cactus")) {			
 			GameObject.Find ("Canvas").GetComponent<Canvas> ().enabled = true;
 			Time.timeScale = 0;
 
-			String pre = "[";
-			String mid = ",";
-			String pos = "]";
-			String json = "";
-			json += pre;
-
-			foreach (Jumped jump in jumps) {
-				json += JsonUtility.ToJson (jump);
-				json += mid;
-			}
+			Genome genome = new Genome {
+				fitness = Genetic.calculateFitness(jumps, cactus),
+				jumps = jumps
+			};
 				
-			json = json.Remove (json.LastIndexOf (mid), 1);
-			json += pos;
+			JsonUtility.ToJson (genome);
 
-			print (json);
+			String filename = genomeBasePath + DateTime.Now.ToString("HHmmssddMMyy") + ".json";
+			if (File.Exists(filename))
+			{
+				Debug.Log(filename+" already exists.");
+				return;
+			}
+			var sr = File.CreateText(filename);
+		
+			sr.WriteLine (JsonUtility.ToJson (genome));
+			sr.Close();
+
 			jumps.Clear();
 		} else if (coll.gameObject.name.StartsWith ("Ground")) {
 			isGrounded = true;
