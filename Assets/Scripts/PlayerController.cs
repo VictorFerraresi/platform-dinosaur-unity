@@ -177,10 +177,6 @@ public class PlayerController : MonoBehaviour {
 			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpHeight);
 			isGrounded = false;
 
-			print ("Actual = " + genomes [genomeIndex].jumps [actualJumpGenome].distanceToNearestCactus.x);
-			print ("Next = " + genomes [genomeIndex].jumps [actualJumpGenome+1].distanceToNearestCactus.x);
-			print ("-------------------------------------------------");
-
 			Cactus c = getNextNearestCactus ();
 			Jumped jump = new Jumped {
 				nearestCactus = c,
