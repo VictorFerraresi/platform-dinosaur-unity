@@ -49,11 +49,14 @@ public class Genetic
 			avg += j.distanceToNearestCactus.x;
 		}
 
-		avg /= a.jumps.Count;
-
+		if (avg == 0) {
+			avg = 0.7f;
+		} else {
+			avg /= a.jumps.Count;
+		}
 		Jumped randJump = new Jumped {
 			nearestCactus = null,
-			distanceToNearestCactus = new Vector2(avg + UnityEngine.Random.Range(-5.0f, 0.0f), 0.0f)
+			distanceToNearestCactus = new Vector2(avg + UnityEngine.Random.Range(-0.5f, 1.0f), 0.0f)
 		};
 
 		a.jumps.Insert (rand, randJump);
