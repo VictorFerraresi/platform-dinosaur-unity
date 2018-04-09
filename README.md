@@ -9,6 +9,7 @@ A simple Google Chrome's dinosaur game replica in Unity
 2. Download and Install the [Unity Engine Development Kit](https://unity3d.com/pt/get-unity/download)
 3. Open the Unity Engine and load the folder you just cloned as a Unity Project
 4. Click on the play button!
+5. Game Commands: Spacebar = JUMP.
 
 By default, if there are less than 4 base genomes in the Genomes directory, the game will let you play by yourself and record your inputs until there are 4 base generated genomes. After that, the game will start playing by itself, doing CrossOvers and Mutations over your base Genomes, and calculating their Fitness using out Fitness Function.
 
