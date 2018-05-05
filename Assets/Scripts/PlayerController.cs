@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	private int actualSprite = 0;
 	private float spriteInterval = 0.1f;
 	private Sprite[] sprites = new Sprite[2];
+	private Sprite[] crouchingSprites = new Sprite[2];
 
 	private String genomeBasePath = "Genomes/genome_";
 
@@ -26,13 +27,16 @@ public class PlayerController : MonoBehaviour {
 	private List<Genome> genomes = Utils.loadAllGenomes ();
 
 	private bool isGrounded = true;
+	private bool isCrouching = false;
 
 	private int actualJumpGenome = 0;
 
 	private bool isLearning = true; //If a real player is playing the game
 
 	// Use this for initialization
-	void Start () {				
+	void Start () {	
+		GetComponent<BoxCollider2D> ().enabled = false;
+
 		isLearning = (genomes.Count < 4);
 		if (!isLearning && Utils.actualGenome >= genomes.Count) {
 			print ("Acabou de jogar os genomas");
@@ -62,7 +66,8 @@ public class PlayerController : MonoBehaviour {
 			genomes = Utils.loadAllGenomes ();
 			Utils.actualGenome = 0;
 		}
-		sprites = Resources.LoadAll<Sprite> ("Art/Player");
+		sprites = Resources.LoadAll<Sprite> ("Art/Player/Standing");
+		crouchingSprites = Resources.LoadAll<Sprite> ("Art/Player/Crouching");
 
 		GameObject.Find ("Canvas").GetComponent<Canvas> ().enabled = false;
 
@@ -97,14 +102,28 @@ public class PlayerController : MonoBehaviour {
 		spriteInterval -= Time.deltaTime;
 		if (spriteInterval < 0) {
 			spriteInterval = 0.1f;
-			GetComponent<SpriteRenderer> ().sprite = sprites [actualSprite];
+			if (isCrouching) {				
+				GetComponent<SpriteRenderer> ().sprite = crouchingSprites [actualSprite];
+			} else {
+				GetComponent<SpriteRenderer> ().sprite = sprites [actualSprite];
+			}
 			actualSprite = 1 - actualSprite;
 		}
 
 		GetComponent<Rigidbody2D> ().velocity = new Vector2 (moveSpeed, GetComponent<Rigidbody2D> ().velocity.y);
 
 		if (isLearning) {
-			if (isGrounded && Input.GetKeyDown (KeyCode.Space)) {
+			if (Input.GetKeyUp (KeyCode.DownArrow)) {
+				isCrouching = false;
+				GetComponent<PolygonCollider2D> ().enabled = true;
+				GetComponent<BoxCollider2D> ().enabled = false;
+			}
+				
+			if (isGrounded && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.UpArrow))) {
+				isCrouching = false;
+				GetComponent<PolygonCollider2D> ().enabled = true;
+				GetComponent<BoxCollider2D> ().enabled = false;
+
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpHeight);
 				isGrounded = false;
 
@@ -115,6 +134,10 @@ public class PlayerController : MonoBehaviour {
 				};
 
 				jumps.Add (jump);
+			} else if (isGrounded && !isCrouching && Input.GetKeyDown (KeyCode.DownArrow)) {
+				isCrouching = true;
+				GetComponent<BoxCollider2D> ().enabled = true;
+				GetComponent<PolygonCollider2D> ().enabled = false;
 			}
 		} else {
 			if(Time.timeScale != 0) {
